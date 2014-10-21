@@ -8,10 +8,28 @@
  * Controller of the angularDemoApp
  */
 angular.module('angularDemoApp')
-  .controller('LoginCtrl', function ($scope) {
-    $scope.user = { email: "", password: ""};
+  .controller('LoginCtrl', function ($scope, $http, $window) {
+    $scope.user = { user_id: "a@b.c", password: "qwe"};
 
     $scope.submit = function(){
-      console.log($scope.user);
+      $http
+        .post( 'http://localhost:8080/api/V1/login',
+               $.param($scope.user),
+               {
+                 headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+               }
+             )
+        .success(function (data, status, headers, config) {
+          $window.sessionStorage.token = data.token;
+          $scope.message = 'Welcome';
+        })
+        .error(function (data, status, headers, config) {
+          // Erase the token if the user fails to log in
+          delete $window.sessionStorage.token;
+
+          // Handle login errors here
+          $scope.message = 'Error: Invalid user or password';
+      });
+
     }
   });
