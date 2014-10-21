@@ -20,7 +20,7 @@ angular.module('angularDemoApp')
                }
              )
         .success(function (data, status, headers, config) {
-          $window.sessionStorage.token = data.token;
+          $window.sessionStorage.token = data;
           $scope.message = 'Welcome';
         })
         .error(function (data, status, headers, config) {
