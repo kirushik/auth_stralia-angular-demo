@@ -8,7 +8,7 @@
  * Controller of the angularDemoApp
  */
 angular.module('angularDemoApp')
-  .controller('LoginCtrl', function ($scope, $http, $window) {
+  .controller('LoginCtrl', function ($scope, $http, $window, $location) {
     $scope.user = { user_id: "a@b.c", password: "qwe"};
 
     $scope.submit = function(){
@@ -21,7 +21,7 @@ angular.module('angularDemoApp')
              )
         .success(function (data, status, headers, config) {
           $window.sessionStorage.token = data;
-          $scope.message = 'Welcome';
+          $location.path('/profile');
         })
         .error(function (data, status, headers, config) {
           // Erase the token if the user fails to log in
